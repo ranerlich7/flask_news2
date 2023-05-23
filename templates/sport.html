@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Sports{% endblock %}
+
+{% block content %}
+
+
+<ol>
+    {% for article in sports %}
+    <li>{{ article }}</li>
+    {% endfor %}
+</ol>
+{% endblock %}

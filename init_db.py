@@ -5,8 +5,8 @@ cur = con.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS article(title, content, image)")
 cur.execute("""
 INSERT INTO article (title, content, image)
-VALUES ("hello this is an news article", " NEWSSSSSSS bla bla bla", "1.jpg"),
-("hello this is an Sports article", "Sport   bla bla bla", "2.jpg"),
-("hello this is an Finance", "Finance bla bla bla", "3.jpg")
+VALUES ("hello this is an news article", " NEWSSSSSSS bla bla bla", "https://picsum.photos/400/300"),
+("hello this is an Sports article", "Sporttttttttttttt   bla bla bla", "https://picsum.photos/400/301"),
+("hello this is an Finance", "Financeeeeeeeeeee bla bla bla", "https://picsum.photos/400/302")
 """)
 con.commit()

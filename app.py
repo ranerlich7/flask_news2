@@ -15,7 +15,7 @@ app = Flask(__name__)
 def news():
    res = cur.execute("SELECT * FROM article")
    articles = res.fetchall()
-   print(articles)
+   print(f"****{articles} ")
    return render_template("news.html", news=articles)
 
 sport_articles = ["City won the premier leage", "Nadal loses a game", "Liverpool rocks"]

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}News{% endblock %}
 {% block content %}
-<form action="/addarticle">
+<form action="/addarticle" method="POST">
     <label for="title">Title:</label><br>
     <input type="text" id="title" name="title"><br>
     <label for="content">Content:</label><br>

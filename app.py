@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import sqlite3
 
 # init database 
@@ -26,9 +26,19 @@ def sports():
    print(f"****{articles} ")
    return render_template("article.html", news=articles)
 
-@app.route("/addarticle")
+@app.route("/addarticle", methods=["POST","GET"])
 def addarticle():
-    return render_template("add_article.html")
+    if request.method == "POST":
+        # get parameters from form
+        title = request.form.get('title')
+        content = request.form.get('content') 
+        print(f"!!!!!!!!!!!!! title:{title}. content:{content}")   
+        # add to database
+        res = cur.execute(f'INSERT INTO article VALUES ("{title}", "{content}", "https://picsum.photos/400/309","Sports")')
+        con.commit()        
+        return "ADDED AN ARTICLE WOOHOO!"
+    else:
+        return render_template("add_article.html")
 
 if __name__ == '__main__':
    app.run(debug=True, port=9000)

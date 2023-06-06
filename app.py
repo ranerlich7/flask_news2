@@ -13,15 +13,18 @@ app = Flask(__name__)
 # articles = ["This is todays news", "this is world news", "this is sports"]
 @app.route("/")
 def news():
-   res = cur.execute("SELECT * FROM article")
+   res = cur.execute("SELECT * FROM article WHERE Category='News'")
    articles = res.fetchall()
    print(f"****{articles} ")
-   return render_template("news.html", news=articles)
+   return render_template("article.html", news=articles)
 
-sport_articles = ["City won the premier leage", "Nadal loses a game", "Liverpool rocks"]
+# sport_articles = ["City won the premier leage", "Nadal loses a game", "Liverpool rocks"]
 @app.route("/sports")
 def sports():
-   return render_template("sport.html", sports=sport_articles)
+   res = cur.execute("SELECT * FROM article WHERE Category='Sports'")
+   articles = res.fetchall()
+   print(f"****{articles} ")
+   return render_template("article.html", news=articles)
 
 
 if __name__ == '__main__':

@@ -22,3 +22,5 @@ VALUES (11, '10,000',3),
 (22, 'oil change',3),
 (33, 'breaks',3);
 
+
+ INSERT INTO article (title, content, image,category) VALUES ('Manchester City gets Messi', 'bla bla MEssi ... bla', 'https://picsum.photos/401/300','Sports')

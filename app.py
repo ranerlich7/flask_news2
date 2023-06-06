@@ -26,21 +26,30 @@ def sports():
    sport_articles = res.fetchall()
    return render_template("sport.html", news=sport_articles)
 
+@app.route("/add_article/<id>", methods=["GET","POST"])
 @app.route("/add_article", methods=["GET","POST"])
-def add_article():
+def add_article(id=-1):
    if request.method == "POST":
       title = request.form.get("title")
       content = request.form.get("content")
       image = request.form.get("image")
       category = request.form.get("category")
       print(f'{title},{content},{image},{category}')
-      res = cur.execute(f'INSERT INTO article VALUES ("{title}","{content}","{image}","{category}");')
+      # updating
+      if id != -1:
+         res = cur.execute(f'UPDATE article SET title="{title}",content="{content}",image="{image}",category="{category}" WHERE id={id};')
+         flash("Updated succesfuly")
+      else:
+      # adding
+         res = cur.execute(f'INSERT INTO article VALUES ("{title}","{content}","{image}","{category}");')
+         flash("Added succesfuly")
       con.commit()
-      flash("Added succesfuly")
       return redirect(url_for('news'))
       
    else:
-      return render_template('add_article.html')
+      res = cur.execute(f"SELECT * FROM article WHERE id={id}")
+      article = res.fetchone()
+      return render_template('add_article.html', article=article)
 
 @app.route("/delete_article/<id>", methods=["POST"])
 def delete_article(id):
@@ -48,6 +57,8 @@ def delete_article(id):
    con.commit()
    flash( f"Deleted id: {id}")
    return redirect(url_for('news'))
+
+
 
 if __name__ == '__main__':
    app.run(debug=True, port=9000)

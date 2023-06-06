@@ -2,12 +2,12 @@
 <div class="card-group">
     {% for article in news %}
     <div class="card">
-        <img src="{{ article[2] }}" class="card-img-top" alt="...">
+        <img src="{{ article[3] }}" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">{{ article[0] }}</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                content. This content is a little bit longer.</p>
+            <h5 class="card-title">{{ article[1] }}</h5>
+            <p class="card-text">{{ article[2] }}.</p>
             <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            <form method="POST" action="/delete_article/{{ article[0]}}"> <input type="submit" value="Delete" class="btn btn-danger"></form>
         </div>
     </div>
     {% endfor %}

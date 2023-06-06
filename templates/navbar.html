@@ -1,6 +1,14 @@
 <div class="navbar">
     Hello Ran
+    <br>
 
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-primary" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
     <br>
     <br>
     <a href="/">News</a>&nbsp;
@@ -8,10 +16,5 @@
     <a href="/finance">Finance</a>&nbsp;
     <a href="/logout">logout</a>&nbsp;&nbsp;&nbsp;
     <a href="/add_article">Add Article</a>&nbsp;
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-primary">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
     <hr>
 </div>

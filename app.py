@@ -42,6 +42,13 @@ def add_article():
    else:
       return render_template('add_article.html')
 
+@app.route("/delete_article/<id>", methods=["POST"])
+def delete_article(id):
+   cur.execute(f'DELETE FROM article WHERE id={id};')
+   con.commit()
+   flash( f"Deleted id: {id}")
+   return redirect(url_for('news'))
+
 if __name__ == '__main__':
    app.run(debug=True, port=9000)
    

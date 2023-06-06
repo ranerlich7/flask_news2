@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3
 
 # init database 
@@ -9,6 +9,7 @@ cur = con.cursor()
 
 # starting flask app
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 # articles = ["This is todays news", "this is world news", "this is sports"]
 @app.route("/")
@@ -25,9 +26,21 @@ def sports():
    sport_articles = res.fetchall()
    return render_template("sport.html", news=sport_articles)
 
-@app.route("/add_article")
+@app.route("/add_article", methods=["GET","POST"])
 def add_article():
-   return render_template('add_article.html')
+   if request.method == "POST":
+      title = request.form.get("title")
+      content = request.form.get("content")
+      image = request.form.get("image")
+      category = request.form.get("category")
+      print(f'{title},{content},{image},{category}')
+      res = cur.execute(f'INSERT INTO article VALUES ("{title}","{content}","{image}","{category}");')
+      con.commit()
+      flash("Added succesfuly")
+      return redirect(url_for('news'))
+      
+   else:
+      return render_template('add_article.html')
 
 if __name__ == '__main__':
    app.run(debug=True, port=9000)

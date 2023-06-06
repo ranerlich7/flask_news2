@@ -26,6 +26,9 @@ def sports():
    print(f"****{articles} ")
    return render_template("article.html", news=articles)
 
+@app.route("/addarticle")
+def addarticle():
+    return render_template("add_article.html")
 
 if __name__ == '__main__':
    app.run(debug=True, port=9000)

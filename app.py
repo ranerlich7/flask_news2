@@ -26,9 +26,9 @@ def sports():
    sport_articles = res.fetchall()
    return render_template("sport.html", news=sport_articles)
 
-@app.route("/add_article/<id>", methods=["GET","POST"])
-@app.route("/add_article", methods=["GET","POST"])
-def add_article(id=-1):
+@app.route("/article/<id>", methods=["GET","POST"])
+@app.route("/article", methods=["GET","POST"])
+def article(id=-1):
    if request.method == "POST":
       title = request.form.get("title")
       content = request.form.get("content")
@@ -49,7 +49,7 @@ def add_article(id=-1):
    else:
       res = cur.execute(f"SELECT * FROM article WHERE id={id}")
       article = res.fetchone()
-      return render_template('add_article.html', article=article)
+      return render_template('article.html', article=article)
 
 @app.route("/delete_article/<id>", methods=["POST"])
 def delete_article(id):

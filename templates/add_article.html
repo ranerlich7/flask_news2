@@ -1,11 +1,25 @@
 {% extends "base.html" %}
-{% block title %}News{% endblock %}
+{% block title %}Add Article{% endblock %}
 {% block content %}
-<form action="/addarticle" method="POST">
+<form action="/add_article" method="POST">
     <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title"><br>
+    <input type="text" id="title" name="title" required><br><br>
+
     <label for="content">Content:</label><br>
-    <input type="text" id="content" name="content"><br><br>
+    <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
+
+    <label for="image-url">Image URL:</label><br>
+    <input type="url" id="image-url" name="image-url" required><br><br>
+
+    <label for="category">Category:</label><br>
+    <select id="category" name="category" required>
+        <option value="">-- Select Category --</option>
+        <option value="News">News</option>
+        <option value="Sports">Sports</option>
+        <option value="Finance">Finance</option>
+    </select><br><br>
+
     <input type="submit" value="Submit">
 </form>
+
 {% endblock %}

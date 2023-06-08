@@ -4,14 +4,13 @@
 
 <div class="card-group">
     {% for article in news %}
-    <div class="card">
-        <img src="{{ article[2] }}" class="card-img-top" alt="...">
+    <div class="card " style="max-width: 12rem;max-height: 5rem;">
+        <img src="{{ article.image_url }}" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">{{ article[0] }}</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                content. This content is a little bit longer.</p>
+            <h5 class="card-title">{{ article.title }}</h5>
+            <p class="card-text">{{ article.content}}</p>
             <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-            <form method="POST" action="/delete_article/{{ article[4] }}"><input type="submit" value="Delete"
+            <form method="POST" action="/delete_article/{{ article.id }}"><input type="submit" value="Delete"
                     class="btn btn-danger">
             </form>
         </div>

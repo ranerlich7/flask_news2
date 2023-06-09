@@ -6,4 +6,4 @@ to clone this project
 4. pip install -r requirements.txt
 
 if you have a wrong venv:
-delete venv folder and repeat 2+3
+delete venv folder and repeat 2-4

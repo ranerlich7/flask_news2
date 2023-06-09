@@ -12,29 +12,29 @@ db = SQLAlchemy(app)
 class Article(db.Model):
    id = db.Column(db.Integer, primary_key=True)
    title = db.Column(db.String(80), unique=True, nullable=False)
-   content = db.Column(db.String(800), unique=True, nullable=False)
+   content = db.Column(db.String(800))
+   image = db.Column(db.String(100))
+   category = db.Column(db.String(50), nullable=False)
 
-  
-   def __repr__(self):
-       return f'<User {self.username}>'
 
 
 @app.route('/')
 def index():
-   # Create a new user
-   user = User(username='Ran')
-   db.session.add(user)
+   article = Article(title='News 22222 is here',content="Hello this is content",image="https://picsum.photos/id/137/300/200", category="News")
+   db.session.add(article)
+   article = Article(title='News 33333 is here',content="Hello this is content",image="https://picsum.photos/id/137/300/200", category="News")
+   db.session.add(article)
    db.session.commit()
 
 
    # Retrieve all users
-   users = User.query.all()
+   articles = Article.query.all()
 
 
    # Display users
    output = ''
-   for user in users:
-       output += f'Username: {user.username}<br>'
+   for article in articles:
+       output += f'Article: {article.title}<br>'
    return output
 
 

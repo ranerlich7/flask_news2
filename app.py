@@ -1,47 +1,45 @@
-from flask import Flask, render_template, request, redirect
-import sqlite3
-
-# init database 
-
-con = sqlite3.connect("news.db", check_same_thread=False)
-cur = con.cursor()
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 
-# starting flask app
 app = Flask(__name__)
-
-# articles = ["This is todays news", "this is world news", "this is sports"]
-# @app.route("/article")
-@app.route("/article/<category>")
-def article(category):
-#    print("CATEGORY IS",category)
-   res = cur.execute(f"SELECT *,rowid FROM article WHERE Category like '%{category}%'")
-   articles = res.fetchall()
-   print("articles",articles)
-   print(f"****{articles} ")
-   return render_template("article.html", news=articles)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///news.db'
+db = SQLAlchemy(app)
 
 
-@app.route("/addarticle", methods=["POST","GET"])
-def addarticle():
-    if request.method == "POST":
-        # get parameters from form
-        title = request.form.get('title')
-        content = request.form.get('content') 
-        print(f"!!!!!!!!!!!!! title:{title}. content:{content}")   
-        # add to database
-        res = cur.execute(f'INSERT INTO article VALUES ("{title}", "{content}", "https://picsum.photos/400/309","Sports")')
-        con.commit()        
-        return "ADDED AN ARTICLE WOOHOO!"
-    else:
-        return render_template("add_article.html")
 
-@app.route("/delete_article/<id>", methods=["POST","GET"])
-def delete_article(id):
-    print(f"ID IS:{id}")
-    res = cur.execute(f"DELETE FROM article WHERE rowid={id};")
-    con.commit()
-    return redirect("/")
+
+class Article(db.Model):
+   id = db.Column(db.Integer, primary_key=True)
+   title = db.Column(db.String(80), unique=True, nullable=False)
+   content = db.Column(db.String(800), unique=True, nullable=False)
+
+  
+   def __repr__(self):
+       return f'<User {self.username}>'
+
+
+@app.route('/')
+def index():
+   # Create a new user
+   user = User(username='Ran')
+   db.session.add(user)
+   db.session.commit()
+
+
+   # Retrieve all users
+   users = User.query.all()
+
+
+   # Display users
+   output = ''
+   for user in users:
+       output += f'Username: {user.username}<br>'
+   return output
+
+
+with app.app_context():
+   db.create_all()
 
 if __name__ == '__main__':
-   app.run(debug=True, port=9000)
+   app.run(debug=True)

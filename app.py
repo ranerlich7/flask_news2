@@ -11,20 +11,16 @@ cur = con.cursor()
 app = Flask(__name__)
 
 # articles = ["This is todays news", "this is world news", "this is sports"]
-@app.route("/")
-def news():
-   res = cur.execute("SELECT *,rowid FROM article WHERE Category='News'")
+# @app.route("/article")
+@app.route("/article/<category>")
+def article(category):
+#    print("CATEGORY IS",category)
+   res = cur.execute(f"SELECT *,rowid FROM article WHERE Category like '%{category}%'")
    articles = res.fetchall()
+   print("articles",articles)
    print(f"****{articles} ")
    return render_template("article.html", news=articles)
 
-# sport_articles = ["City won the premier leage", "Nadal loses a game", "Liverpool rocks"]
-@app.route("/sports")
-def sports():
-   res = cur.execute("SELECT *,rowid FROM article WHERE Category='Sports'")
-   articles = res.fetchall()
-   print(f"****{articles} ")
-   return render_template("article.html", news=articles)
 
 @app.route("/addarticle", methods=["POST","GET"])
 def addarticle():

@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% block title %}News{% endblock %}
 {% block content %}
-<form action="/add_article/{{ article[4] }}" method="POST">
+
+<form action="/add_article{% if article %}/{{article.id}}{% endif %}" method="POST">
     <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title" required value="{{ article[0] }}"><br><br>
+    <input type="text" id="title" name="title" required value="{{ article.title }}"><br><br>
 
     <label for="content">Content:</label><br>
-    <textarea id="content" name="content" rows="4" cols="50" required>{{ article[1] }}</textarea><br><br>
+    <textarea id="content" name="content" rows="4" cols="50" required>{{ article.content }}</textarea><br><br>
 
     <label for="image-url">Image URL:</label><br>
-    <input type="url" id="image-url" name="image-url" required value="{{ article[2] }}"><br><br>
+    <input type="url" id="image-url" name="image-url" required value="{{ article.image }}"><br><br>
 
     <label for="category">Category:</label><br>
     <select id="category" name="category" required>

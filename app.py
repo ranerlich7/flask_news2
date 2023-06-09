@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -15,6 +15,15 @@ class Article(db.Model):
    content = db.Column(db.String(800))
    image = db.Column(db.String(100))
    category = db.Column(db.String(50), nullable=False)
+
+
+# @app.route("/article")
+@app.route("/article/<category>")
+def article(category):
+   articles = Article.query.filter(Article.category.ilike(category)).all()
+   print("articles",articles)
+   print(f"****{articles} ")
+   return render_template("article.html", news=articles)
 
 
 

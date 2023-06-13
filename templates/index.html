@@ -1,19 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card-group">
-    {% for article in news %}
-    <div class="card" style="max-width: 8rem;">
-        <img src="{{ article.image }}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">{{ article.title }}</h5>
-            <p class="card-text">{{ article.content }}</p>
-            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-            <form method="POST" action="/delete_article/{{ article.id }}"><input type="submit" value="Delete"
-                    class="btn btn-danger">
-            </form>
-            <a href="/add_article/{{ article.id }} ">Update {{ article.id }}</a>
+
+<div class="container-fluid">
+    <div class="row">
+        {% for article in news %}
+        <div class="col-sm-6">
+            <div class="card" style="max-width: 12rem;">
+                <img src="{{ article.image }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">{{ article.content }}</p>
+                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    <form method="POST" action="/delete_article/{{ article.id }}"><input type="submit" value="Delete"
+                            class="btn btn-danger">
+                    </form>
+                    <a href="/add_article/{{ article.id }} ">Update {{ article.id }}</a>
+                </div>
+            </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

@@ -10,7 +10,7 @@
     <textarea id="content" name="content" rows="4" cols="50" required>{{ article.content }}</textarea><br><br>
 
     <label for="image-url">Image URL:</label><br>
-    <input type="url" id="image-url" name="image-url" required value="{{ article.image }}"><br><br>
+    <input type="url" id="image-url" name="image-url" required value="{{ article.image or 'https://picsum.photos/id/237/200/300' }}" size="50"><br><br>
 
     <label for="category">Category:</label><br>
     <select id="category" name="category" required>

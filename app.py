@@ -43,10 +43,13 @@ def article(id=-1):
 #   category: 'News',
 #   image: ''
 # }
+
+
 @app.route('/create_article', methods=['POST'])
 def create_article():
     data = request.get_json()
-    new_article = Article(title=data['title'], content=data['content'], category=data['category'],image=data['image'])
+    new_article = Article(title=data['title'], content=data['content'],
+                          category=data['category'], image=data['image'])
     db.session.add(new_article)
     db.session.commit()
     return jsonify({'message': 'User created successfully'})

@@ -16,12 +16,13 @@ class Article(db.Model):
 
 
 # @app.route("/article")
+@app.route("/")
 @app.route("/article/<category>")
-def article(category):
+def article(category="news"):
     articles = Article.query.filter(Article.category.ilike(category)).all()
     print("articles", articles)
     print(f"****{articles} ")
-    return render_template("article.html", news=articles)
+    return render_template("index.html", news=articles)
 
 
 @app.route("/add_article", methods=["POST", "GET"])
@@ -39,9 +40,11 @@ def add_article(id=-1):
                               image=image_url, category=category)
             db.session.add(article)
             db.session.commit()
+        # update new article
         else:
             article = Article.query.get(id)
             article.title = title
+            article.image = image_url
 
             db.session.commit()
 

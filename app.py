@@ -14,6 +14,19 @@ class Article(db.Model):
     image = db.Column(db.String(100))
     category = db.Column(db.String(50), nullable=False)
 
+@app.route("/")
+@app.route("/<cat>")
+def index(cat=None):
+    print(f'** {cat}')
+    if not cat:
+        articles = Article.query.all()
+    else:
+        # cat = f'%{cat}%'
+        articles = Article.query.filter(Article.category.ilike(cat)).all()
+    
+
+    return render_template("index.html", news=articles)
+
 
 # @app.route("/article")
 @app.route("/article/<category>")

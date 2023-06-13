@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -15,74 +15,29 @@ class Article(db.Model):
     category = db.Column(db.String(50), nullable=False)
 
 
-# @app.route("/article")
-@app.route("/")
-@app.route("/article/<category>")
-def article(category="news"):
-    articles = Article.query.filter(Article.category.ilike(category)).all()
-    print("articles", articles)
-    print(f"****{articles} ")
-    return render_template("index.html", news=articles)
-
-
-@app.route("/add_article", methods=["POST", "GET"])
-@app.route("/add_article/<id>", methods=["POST", "GET"])
-def add_article(id=-1):
-    if request.method == "POST":
-        title = request.form.get("title")
-        content = request.form.get("content")
-        image_url = request.form.get("image-url")
-        category = request.form.get("category")
-        print(f"!!! {title},{content},{image_url},{category}")
-        # add new article
-        if id == -1:
-            article = Article(title=title, content=content,
-                              image=image_url, category=category)
-            db.session.add(article)
-            db.session.commit()
-        # update new article
-        else:
-            article = Article.query.get(id)
-            article.title = title
-            article.image = image_url
-
-            db.session.commit()
-
-        return redirect(f'/article/{category}')
-
-    article = Article.query.get(id)
-
-    return render_template("add_article.html", article=article)
-
-
-@app.route("/delete_article/<id>", methods=["POST"])
-def delete_article(id):
-    article = Article.query.get(id)
-    if article:
-        db.session.delete(article)
-        db.session.commit()
-        return redirect("/article/"+article.category)
+@app.route("/article")
+@app.route("/article/<id>")
+def article(id=-1):
+    if id == -1:
+        articles = Article.query.all()
     else:
-        return 'Article not found.'
+        articles = [Article.query.get(id)]
+    return_data = []
+    for article in articles:
+        return_data.append(
+            {
+                'id': article.id,
+                'title': article.title,
+                'content': article.content,
+                'image': article.image,
+                'category': article.category
+            })
+    if id != -1:
+        return jsonify(return_data[0])
 
-# @app.route('/')
-# def index():
-#    article = Article(title='News 22222 is here',content="Hello this is content",image="https://picsum.photos/id/137/300/200", category="News")
-#    db.session.add(article)
-#    article = Article(title='News 33333 is here',content="Hello this is content",image="https://picsum.photos/id/137/300/200", category="News")
-#    db.session.add(article)
-#    db.session.commit()
+    return jsonify(return_data)
 
 
-#    # Retrieve all users
-#    articles = Article.query.all()
-
-
-#    # Display users
-#    output = ''
-#    for article in articles:
-#        output += f'Article: {article.title}<br>'
-#    return output
 
 
 with app.app_context():

@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///news.db'
 db = SQLAlchemy(app)
+CORS(app)
 
 
 class Article(db.Model):
